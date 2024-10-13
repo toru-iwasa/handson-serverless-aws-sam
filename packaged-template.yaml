@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS Hands-on for Begginers - Serverless 2
+Resources:
+  TranslateLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: translate-function-2
+      CodeUri: s3://handson-serverless-20241013/efdf4d08b4df57ad11d07c0e59a90072
+      Handler: translate-function.lambda_handler
+      Runtime: python3.12
+      Timeout: 5
+      MemorySize: 256
+      Policies:
+      - TranslateFullAccess
+      Events:
+        GetApi:
+          Type: Api
+          Properties:
+            Path: /translate
+            Method: get
+            RestApiId:
+              Ref: TranslateAPI
+  TranslateAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: translate-api-2
+      StageName: dev
+      EndpointConfiguration: REGIONAL
